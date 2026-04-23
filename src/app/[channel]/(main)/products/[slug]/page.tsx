@@ -196,7 +196,7 @@ async function ProductContent({
 								attributes={productAttributes}
 								careInstructions={careInstructions}
 							/>
-							<Suspense fallback={<div className="h-14 w-full animate-pulse rounded-md bg-secondary" />}>
+							<Suspense fallback={<div className="h-14 w-full animate-pulse rounded bg-secondary" />}>
 								<WishlistSection productId={product.id} channel={params.channel} />
 							</Suspense>
 						</div>
