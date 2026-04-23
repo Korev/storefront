@@ -16,3 +16,4 @@ export {
 // Cache Components - Dynamic variant section with Suspense support
 export { VariantSectionDynamic, VariantSectionSkeleton } from "./variant-section-dynamic";
 export { VariantSectionError } from "./variant-section-error";
+export { WishlistSection } from "./wishlist-section";

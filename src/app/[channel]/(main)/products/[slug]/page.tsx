@@ -16,6 +16,7 @@ import {
 	VariantSectionDynamic,
 	VariantSectionSkeleton,
 	VariantSectionError,
+	WishlistSection,
 } from "@/ui/components/pdp";
 
 // ============================================================================
@@ -189,12 +190,15 @@ async function ProductContent({
 							</Suspense>
 						</ErrorBoundary>
 
-						<div className="order-4 mt-6">
+						<div className="order-4 mt-6 space-y-4">
 							<ProductAttributes
 								descriptionHtml={descriptionHtml}
 								attributes={productAttributes}
 								careInstructions={careInstructions}
 							/>
+							<Suspense fallback={<div className="h-14 w-full animate-pulse rounded-md bg-secondary" />}>
+								<WishlistSection productId={product.id} channel={params.channel} />
+							</Suspense>
 						</div>
 					</div>
 				</div>
