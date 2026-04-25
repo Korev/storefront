@@ -5,6 +5,7 @@ import { CartNavItem } from "./nav/components/cart-nav-item";
 import { UserMenuContainer } from "./nav/components/user-menu/user-menu-container";
 import { MobileMenu } from "./nav/components/mobile-menu";
 import { SearchBar } from "./nav/components/search-bar";
+import { WishlistNavItem } from "@/ui/components/wishlist";
 
 function SearchBarSkeleton() {
 	return <div className="h-10 w-full max-w-md animate-pulse rounded-lg bg-secondary" />;
@@ -52,6 +53,9 @@ export async function Header({ channel }: { channel: string }) {
 					<div className="flex items-center gap-1">
 						<Suspense fallback={<div className="h-10 w-10" />}>
 							<UserMenuContainer />
+						</Suspense>
+						<Suspense fallback={<div className="h-10 w-10" />}>
+							<WishlistNavItem channel={channel} />
 						</Suspense>
 						<Suspense fallback={<div className="h-10 w-10" />}>
 							<CartNavItem channel={channel} />

@@ -1,0 +1,6 @@
+query WishlistFetch {
+	me {
+		id
+		metafield(key: "wishlist")
+	}
+}
