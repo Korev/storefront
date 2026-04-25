@@ -4,6 +4,7 @@ import { LoginForm } from "@/ui/components/login-form";
 import { AccountNav } from "@/ui/components/account/account-nav";
 import { AccountSkeleton } from "@/ui/components/account/account-skeleton";
 import { AccountProvider } from "@/ui/components/account/account-context";
+import { AuthProvider } from "@/lib/auth";
 import { getCurrentUser } from "./get-current-user";
 
 export const metadata = {
@@ -28,13 +29,21 @@ async function AccountShell({ children }: { children: ReactNode }) {
 	}
 
 	if (!hasCookies) {
-		return <LoginForm />;
+		return (
+			<AuthProvider>
+				<LoginForm />
+			</AuthProvider>
+		);
 	}
 
 	const user = await getCurrentUser();
 
 	if (!user) {
-		return <LoginForm />;
+		return (
+			<AuthProvider>
+				<LoginForm />
+			</AuthProvider>
+		);
 	}
 
 	return (

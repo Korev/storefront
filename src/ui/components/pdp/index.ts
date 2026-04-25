@@ -19,3 +19,4 @@ export { VariantSectionError } from "./variant-section-error";
 
 // Wishlist
 export { WishlistSection } from "./wishlist-section";
+export { AddToWishlist } from "./add-to-wishlist";

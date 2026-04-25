@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { executeAuthenticatedGraphQL } from "@/lib/graphql";
 import { WishlistFetchDocument, WishlistUpdateDocument } from "@/gql/graphql";
 import { parseWishlist } from "./wishlist-utils";
@@ -26,5 +27,8 @@ export async function updateWishlist(productId: string) {
 
 	if (!updateResult.ok) {
 		console.error("Wishlist update failed:", updateResult.error.message);
+		return;
 	}
+
+	revalidatePath("/[channel]/wishlist", "page");
 }

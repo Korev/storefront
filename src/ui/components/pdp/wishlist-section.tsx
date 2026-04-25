@@ -26,11 +26,13 @@ export async function WishlistSection({ productId, channel }: WishlistSectionPro
 	const isWishlisted = wishlist.includes(productId);
 
 	return (
-		<AddToWishlist
-			isWishlisted={isWishlisted}
-			isLoggedIn={!!user}
-			channel={channel}
-			action={updateWishlist.bind(null, productId)}
-		/>
+		<div className="contents">
+			<AddToWishlist
+				isWishlisted={isWishlisted}
+				isLoggedIn={!!user}
+				channel={channel}
+				action={updateWishlist.bind(null, productId)}
+			/>
+		</div>
 	);
 }
