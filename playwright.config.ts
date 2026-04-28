@@ -19,7 +19,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: "next dev --webpack",
+		command: "pnpm exec next dev --webpack",
 		url: "http://localhost:3000",
 		timeout: 120_000,
 		reuseExistingServer: !process.env.CI,
