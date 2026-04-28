@@ -12,6 +12,8 @@
 
 ## File Map
 
+> **Note:** All paths are relative to the `saleor/` git repo root (the `infra/` directory lives inside the saleor repo by design). Working directory for all commands: `/Users/georgy/src/petvamily/saleor/` (or the worktree at `.worktrees/gcp-backend-deployment/`).
+
 ```
 infra/
 └── terraform/
@@ -45,10 +47,9 @@ infra/
             ├── variables.tf
             └── outputs.tf
 
-saleor/
-├── cloudbuild.yaml                  ← new: build + deploy API + deploy worker
-└── scripts/
-    └── worker-entrypoint.sh         ← new: health-check server + celery exec
+cloudbuild.yaml                      ← new: build + deploy API + deploy worker
+scripts/
+└── worker-entrypoint.sh             ← new: health-check server + celery exec
 ```
 
 ---
@@ -893,11 +894,11 @@ git commit -m "feat(infra): wire all modules in root, validate full plan"
 
 **Files:**
 
-- Create: `saleor/scripts/worker-entrypoint.sh`
+- Create: `scripts/worker-entrypoint.sh`
 
 The Saleor Dockerfile CMD runs `uvicorn`. For the Celery worker Cloud Run service we need to override this. Cloud Run requires the container to listen on a port (for health probes), so we run a minimal Python HTTP server alongside Celery.
 
-- [ ] **Step 1: Create `saleor/scripts/worker-entrypoint.sh`**
+- [ ] **Step 1: Create `scripts/worker-entrypoint.sh`**
 
 ```bash
 #!/bin/bash
@@ -926,21 +927,21 @@ exec celery -A saleor worker --loglevel=info
 - [ ] **Step 2: Make the script executable**
 
 ```bash
-chmod +x saleor/scripts/worker-entrypoint.sh
+chmod +x scripts/worker-entrypoint.sh
 ```
 
 - [ ] **Step 3: Verify the script is included in the Docker build**
 
-Check `saleor/Dockerfile` — it has `COPY . /app` which copies all files including `scripts/`. Confirm there is no `.dockerignore` entry that would exclude `scripts/`:
+Check `Dockerfile` — it has `COPY . /app` which copies all files including `scripts/`. Confirm there is no `.dockerignore` entry that would exclude `scripts/`:
 
 ```bash
-grep -r "scripts" saleor/.dockerignore 2>/dev/null || echo "No .dockerignore exclusion for scripts/"
+grep -r "scripts" .dockerignore 2>/dev/null || echo "No .dockerignore exclusion for scripts/"
 ```
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git add saleor/scripts/worker-entrypoint.sh
+git add scripts/worker-entrypoint.sh
 git commit -m "feat(saleor): add worker entrypoint script for Cloud Run health-check compatibility"
 ```
 
@@ -950,9 +951,9 @@ git commit -m "feat(saleor): add worker entrypoint script for Cloud Run health-c
 
 **Files:**
 
-- Create: `saleor/cloudbuild.yaml`
+- Create: `cloudbuild.yaml`
 
-- [ ] **Step 1: Create `saleor/cloudbuild.yaml`**
+- [ ] **Step 1: Create `cloudbuild.yaml`**
 
 ```yaml
 steps:
@@ -963,7 +964,6 @@ steps:
       - -t=${_REGISTRY}/saleor-backend:$BUILD_ID
       - -t=${_REGISTRY}/saleor-backend:latest
       - .
-    dir: saleor
 
   # Push both tags
   - name: gcr.io/cloud-builders/docker
@@ -1029,7 +1029,7 @@ options:
 - [ ] **Step 2: Commit**
 
 ```bash
-git add saleor/cloudbuild.yaml
+git add cloudbuild.yaml
 git commit -m "feat(saleor): add Cloud Build pipeline for GCP deployment"
 ```
 
@@ -1039,27 +1039,27 @@ git commit -m "feat(saleor): add Cloud Build pipeline for GCP deployment"
 
 **Files:**
 
-- Delete: `saleor/deployment/elasticbeanstalk/Dockerrun.aws.json`
-- Delete: `saleor/deployment/elasticbeanstalk/` (directory)
+- Delete: `deployment/elasticbeanstalk/Dockerrun.aws.json`
+- Delete: `deployment/elasticbeanstalk/` (directory)
 
 - [ ] **Step 1: Remove the EB deployment directory**
 
 ```bash
-git rm -r saleor/deployment/elasticbeanstalk/
+git rm -r deployment/elasticbeanstalk/
 ```
 
-Expected: `rm 'saleor/deployment/elasticbeanstalk/Dockerrun.aws.json'`
+Expected: `rm 'deployment/elasticbeanstalk/Dockerrun.aws.json'`
 
-- [ ] **Step 2: Check if `saleor/deployment/` is now empty**
+- [ ] **Step 2: Check if `deployment/` is now empty**
 
 ```bash
-ls saleor/deployment/
+ls deployment/
 ```
 
 If empty, remove the parent too:
 
 ```bash
-git rm -r saleor/deployment/
+git rm -r deployment/
 ```
 
 - [ ] **Step 3: Commit**
