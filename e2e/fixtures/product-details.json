@@ -1,0 +1,48 @@
+{
+	"data": {
+		"product": {
+			"id": "TEST_PRODUCT_1",
+			"name": "Test Dog Harness",
+			"slug": "test-dog-harness",
+			"description": null,
+			"seoTitle": "Test Dog Harness",
+			"seoDescription": "A test product for e2e tests",
+			"thumbnail": {
+				"url": "https://placehold.co/400x400.webp",
+				"alt": "Test Dog Harness"
+			},
+			"media": [],
+			"category": {
+				"id": "CAT_1",
+				"name": "Dogs",
+				"slug": "dogs"
+			},
+			"attributes": [],
+			"variants": [
+				{
+					"id": "VARIANT_1",
+					"name": "Default",
+					"sku": "TEST-001",
+					"quantityAvailable": 10,
+					"selectionAttributes": [],
+					"nonSelectionAttributes": [],
+					"media": [],
+					"pricing": {
+						"price": { "gross": { "currency": "USD", "amount": 29.99 } },
+						"priceUndiscounted": { "gross": { "currency": "USD", "amount": 29.99 } }
+					}
+				}
+			],
+			"pricing": {
+				"priceRange": {
+					"start": { "gross": { "amount": 29.99, "currency": "USD" } },
+					"stop": { "gross": { "amount": 29.99, "currency": "USD" } }
+				},
+				"priceRangeUndiscounted": {
+					"start": { "gross": { "amount": 29.99, "currency": "USD" } },
+					"stop": { "gross": { "amount": 29.99, "currency": "USD" } }
+				}
+			}
+		}
+	}
+}
