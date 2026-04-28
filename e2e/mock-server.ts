@@ -32,7 +32,7 @@ export function startMockServer(): Promise<void> {
 
 	fixtureCache.clear();
 	for (const file of readdirSync(FIXTURES_DIR).filter((f) => f.endsWith(".json"))) {
-		fixtureCache.set(file, JSON.parse(readFileSync(join(FIXTURES_DIR, file), "utf-8")));
+		fixtureCache.set(file, JSON.parse(readFileSync(join(FIXTURES_DIR, file), "utf-8")) as object);
 	}
 
 	server = http.createServer((req, res) => {
@@ -45,6 +45,14 @@ export function startMockServer(): Promise<void> {
 			return;
 		}
 
+		req.on("error", (err) => {
+			console.error("[mock] Request error:", err.message);
+			if (!res.writableEnded) {
+				res.writeHead(500);
+				res.end(JSON.stringify({ error: "Request error" }));
+			}
+		});
+
 		let body = "";
 		req.on("data", (chunk: Buffer) => {
 			body += chunk.toString();
@@ -54,7 +62,14 @@ export function startMockServer(): Promise<void> {
 			res.setHeader("Content-Type", "application/json");
 
 			if (req.url === "/test-control" && req.method === "POST") {
-				const parsed = JSON.parse(body) as ScenarioState;
+				let parsed: ScenarioState;
+				try {
+					parsed = JSON.parse(body) as ScenarioState;
+				} catch {
+					res.writeHead(400);
+					res.end(JSON.stringify({ error: "Invalid JSON" }));
+					return;
+				}
 				scenarioState = { pre: parsed.pre ?? {}, post: parsed.post ?? {} };
 				isPost = false;
 				res.writeHead(200);
@@ -63,7 +78,15 @@ export function startMockServer(): Promise<void> {
 			}
 
 			if (req.url === "/graphql/" && req.method === "POST") {
-				const { query } = JSON.parse(body) as { query: string };
+				let parsedBody: { query: string };
+				try {
+					parsedBody = JSON.parse(body) as { query: string };
+				} catch {
+					res.writeHead(400);
+					res.end(JSON.stringify({ error: "Invalid JSON body" }));
+					return;
+				}
+				const { query } = parsedBody;
 				const operationName = query?.match(/(?:query|mutation)\s+(\w+)/)?.[1] ?? "Unknown";
 
 				// Switch to post-state after any mutation that modifies wishlist
@@ -91,6 +114,7 @@ export function startMockServer(): Promise<void> {
 export function stopMockServer(): Promise<void> {
 	return new Promise<void>((resolve, reject) => {
 		if (!server) return resolve();
+		server.closeAllConnections();
 		server.close((err) => (err ? reject(err) : resolve()));
 	});
 }

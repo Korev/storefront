@@ -1,4 +1,4 @@
-import { startMockServer } from "./mock-server.ts";
+import { startMockServer } from "./mock-server";
 
 export default async function globalSetup() {
 	await startMockServer();

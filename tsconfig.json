@@ -37,6 +37,7 @@
 		".next/types/**/*.ts",
 		"*.ts",
 		"__tests__/**/*",
+		"e2e/**/*.ts",
 		".next/dev/types/**/*.ts"
 	],
 	"exclude": ["node_modules", "src/_reference"]
