@@ -1,0 +1,50 @@
+{
+	"data": {
+		"products": {
+			"edges": [
+				{
+					"node": {
+						"id": "WISHLIST_PRODUCT_1",
+						"name": "Cozy Dog Sweater",
+						"slug": "cozy-dog-sweater",
+						"created": "2024-01-01T00:00:00+00:00",
+						"pricing": {
+							"priceRange": {
+								"start": { "gross": { "amount": 29.99, "currency": "USD" } },
+								"stop": { "gross": { "amount": 29.99, "currency": "USD" } }
+							},
+							"priceRangeUndiscounted": {
+								"start": { "gross": { "amount": 29.99, "currency": "USD" } },
+								"stop": { "gross": { "amount": 29.99, "currency": "USD" } }
+							}
+						},
+						"category": { "id": "CAT_1", "name": "Dogs", "slug": "dogs" },
+						"thumbnail": { "url": "https://placehold.co/400x600.webp", "alt": "Cozy Dog Sweater" },
+						"variants": []
+					}
+				},
+				{
+					"node": {
+						"id": "WISHLIST_PRODUCT_2",
+						"name": "Luxury Cat Bed",
+						"slug": "luxury-cat-bed",
+						"created": "2024-01-02T00:00:00+00:00",
+						"pricing": {
+							"priceRange": {
+								"start": { "gross": { "amount": 49.99, "currency": "USD" } },
+								"stop": { "gross": { "amount": 49.99, "currency": "USD" } }
+							},
+							"priceRangeUndiscounted": {
+								"start": { "gross": { "amount": 49.99, "currency": "USD" } },
+								"stop": { "gross": { "amount": 49.99, "currency": "USD" } }
+							}
+						},
+						"category": { "id": "CAT_2", "name": "Cats", "slug": "cats" },
+						"thumbnail": { "url": "https://placehold.co/400x600.webp", "alt": "Luxury Cat Bed" },
+						"variants": []
+					}
+				}
+			]
+		}
+	}
+}
